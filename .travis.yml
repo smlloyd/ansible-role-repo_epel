@@ -19,7 +19,7 @@ addons:
 
 install:
   # Install ansible
-  - pip install molecule podman
+  - pip install ansible-lint molecule podman
 
 script:
   # Basic role syntax check
