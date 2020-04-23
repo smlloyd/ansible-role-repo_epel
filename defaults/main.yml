@@ -1,0 +1,13 @@
+---
+# defaults file for smlloyd.repo_epel
+repo_epel_key_url: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+repo_epel_description: "Extra Packages for Enterprise Linux $releasever - $basearch"
+repo_epel_metalink: "https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir"
+repo_epel_gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+repo_epel_add_recommended_repos: True
+repo_epel_recommended_rhel7_repos:
+  - "rhel-*-optional-rpms"
+  - "rhel-*-extras-rpms"
+  - "rhel-ha-for-rhel-*-server-rpms"
+repo_epel_recommended_rhel8_repos:
+  - "codeready-builder-for-rhel-8-{{ ansible_architecture }}-rpms"

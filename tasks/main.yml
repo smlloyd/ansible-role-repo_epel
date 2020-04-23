@@ -1,0 +1,46 @@
+---
+# tasks file for smlloyd.repo_epel
+- name: Import gpg key
+  rpm_key:
+    key: "{{ repo_epel_key_url }}"
+
+- name: Add epel repository.
+  yum_repository:
+    name: epel
+    description: Extra Packages for Enterprise Linux $releasever - $basearch
+    metalink: "{{ repo_epel_metalink }}"
+    gpgkey: "{{ repo_epel_gpgkey }}"
+    gpgcheck: yes
+    enabled: yes
+
+- name: Enable recommended additional repositories for RHEL7 hosts.
+  rhsm_repository:
+    name: "{{ item }}"
+  with_items:
+    - "{{ repo_epel_recommended_rhel7_repos }}"
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_major_version'] == "7"
+    - repo_epel_add_recommended_repos
+
+- name: Enable recommended additional repositories for RHEL8  hosts.
+  rhsm_repository:
+    name: "{{ item }}"
+  with_items:
+    - "{{ repo_epel_recommended_rhel8_repos }}"
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_major_version'] == "8"
+    - repo_epel_add_recommended_repos
+
+- name: Enable PowerTools repo for CentOS 8 hosts.
+  ini_file:
+      dest: /etc/yum.repos.d/CentOS-PowerTools.repo
+      section: PowerTools
+      option: enabled
+      value: "1"
+      no_extra_spaces: yes
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
+    - repo_epel_add_recommended_repos
