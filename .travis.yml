@@ -2,11 +2,12 @@
 services:
   - docker
 
-# Install ansible
+# Install python3 and pip
 addons:
   apt:
     packages:
     - python3-pip
+    - python3
 
 install:
   # Install ansible and molecule
