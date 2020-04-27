@@ -1,16 +1,6 @@
 ---
-dist: bionic
-
-before_install:
-- . /etc/os-release
-- sudo sh -c "echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-- curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
-- sudo apt-get update -qq
-- sudo apt-get install -qq -y software-properties-common podman
-- sudo mkdir -p /etc/containers
-- sudo sh -c '/bin/echo -e "[registries.search]\nregistries = [\"docker.io\"]" > /etc/containers/registries.conf'
-- sudo sh -c '/bin/echo -e "[engine]\ncgroup_manager = \"cgroupfs\"" > /etc/containers/containers.conf'
-- podman --version
+services:
+  - docker
 
 # Install ansible
 addons:
@@ -19,12 +9,11 @@ addons:
     - python-pip
 
 install:
-  # Install ansible
-  - pip install ansible-lint molecule podman
+  # Install ansible and molecule
+  - pip install ansible-lint molecule docker
 
 script:
-  # Basic role syntax check
-  - molecule test
+  - molecule test --scenario-name travis
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

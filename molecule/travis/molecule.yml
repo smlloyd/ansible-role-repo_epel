@@ -1,0 +1,17 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: epel-centos-7
+    image: docker.io/centos:7
+    pre_build_image: true
+  - name: epel-centos-8
+    image: docker.io/centos:8
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
+lint: ansible-lint .
