@@ -2,7 +2,11 @@
 services:
   - docker
 
-# Install python3 and pip
+env:
+  global:
+    - ROLE_NAME: repo_epel
+    - AUTHOR_NAME: smlloyd
+
 addons:
   apt:
     packages:
@@ -12,6 +16,12 @@ addons:
 install:
   # Install ansible and molecule
   - pip3 install ansible-lint molecule docker
+
+before_script:
+  # Use galaxy role name
+  - cd ../
+  - mv ansible-role-$ROLE_NAME $AUTHOR_NAME.$ROLE_NAME
+  - cd $AUTHOR_NAME.$ROLE_NAME
 
 script:
   - molecule test --scenario-name travis
